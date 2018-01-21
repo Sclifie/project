@@ -1,0 +1,13 @@
+/*Bootstrap Core CSS*/
+@import "bootstrap.css";
+/*MAIN*/
+@import "main.css";
+@import "green.css";
+/*Font Awesome*/
+@import "font-awesome.min.css";
+
+.auth-status-block{
+    width: 50%;
+    color: red;
+    margin: 5px 5px 5px 5px;
+}
