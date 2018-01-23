@@ -1,0 +1,1 @@
+a:3:{s:9:"userEmail";s:20:"Sclif2003@rambler.ru";s:9:"userLogin";s:5:"Sclif";s:12:"userPassword";s:9:"qwerty123";}

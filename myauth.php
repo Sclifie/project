@@ -1,10 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
 <?php include 'header.php' ?>
 <main id="authentication" class="inner-bottom-md">
     <div class="container">
@@ -23,7 +16,7 @@
                         </div>
                     </div>
 
-                    <form role="form" class="login-form cf-style-1" id="auth_form" method="post">
+                    <form class="login-form cf-style-1" id="auth_form">
                         <div class="field-row">
                             <label>E-mail</label>
                             <input type="text" class="le-input" id="auth_user_email">
@@ -49,7 +42,7 @@
                         </div>
 
                         <div class="buttons-holder">
-                            <button type="submit" class="le-button huge">Войти</button>
+                            <button type="submit" class="le-button huge" id="auth_form_btn">Войти</button>
                         </div><!-- /.buttons-holder -->
                     </form><!-- /.cf-style-1 -->
 
@@ -61,7 +54,7 @@
                     <h2 class="bordered">Создать новый аккаунт</h2>
                     <p>Создайте свой собственный аккаун с безграницными возможностями</p>
 
-                    <form role="form" class="register-form cf-style-1" id="register_form" method="get">
+                    <form role="form" class="register-form cf-style-1" id="register_form">
                         <div class="field-row">
                             <label>E-mail</label>
                             <input type="text" class="le-input">
@@ -99,8 +92,10 @@
 
         </div><!-- /.row -->
     </div><!-- /.container -->
+    <div id="otladka">
+
+    </div>
 </main><!-- /.authentication -->
-<script href="assets/js/auth_js.js"
+<script src="assets/js/auth_users.js"></script>
+<script src="assets/js/reg_users.js"></script>
 <?php include 'footer.php'?>
-</body>
-</html>
