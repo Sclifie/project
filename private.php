@@ -1,10 +1,10 @@
 <?php
-session_start();
 if (isset($_SESSION['auth']) == true): ?>
+    session_start();
 <?php include 'menu.php' ?>
 <p>HELLO</p>
 <?php include 'footer.php'; ?>
-<?php else: header('location : /myauth.php');  endif;?>
+<?php else: header('location : http://myproject/private.php');  endif;?>
 <!--//if (isset($_SESSION['auth']) == true){-->
 <!--//    session_start();-->
 <!--//}else {-->
