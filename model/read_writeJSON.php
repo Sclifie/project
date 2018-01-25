@@ -10,12 +10,16 @@ function getDataFromFile($file_name){
     return false;
 }
 function addDataToFile($data, $file_name){
-    return file_put_contents($file_name, serialize($data), FILE_APPEND);
+    return file_put_contents(
+        $file_name,
+        serialize($data),
+        FILE_APPEND
+    );
 }
 function checkUsers($data,$file_name){
     $array = json_decode($data, true);
     $data = file_get_contents($file_name);
-    var_dump(unserialize($data));
+    var_export(unserialize($data));
 
 }
 /**

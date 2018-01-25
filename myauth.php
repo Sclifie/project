@@ -1,4 +1,13 @@
+<?php session_start();
+ setcookie(
+         'new_cookie',
+         'true',
+         time() + 3600
+     );
+ var_dump($_SESSION);
+?>
 <?php include 'header.php' ?>
+<?php include 'menu.php' ?>
 <main id="authentication" class="inner-bottom-md">
     <div class="container">
         <div class="row">
@@ -16,15 +25,15 @@
                         </div>
                     </div>
 
-                    <form class="login-form cf-style-1" id="auth_form">
+                    <form class="login-form cf-style-1 "  id="auth_form">
                         <div class="field-row">
                             <label>E-mail</label>
-                            <input type="text" class="le-input" id="auth_user_email">
+                            <input type="text" class="le-input req" id="auth_user_email">
                         </div><!-- /.field-row -->
 
                         <div class="field-row">
                             <label>Пароль</label>
-                            <input type="text" class="le-input" id="auth_user_pw">
+                            <input type="text"  class="le-input req" data-settings="hello" id="auth_user_pw">
                         </div><!-- /.field-row -->
 <!--               С       Т      А        Т      У        С                  А         У       Т       А -->
                         <div class="auth-status-block">
@@ -98,4 +107,5 @@
 </main><!-- /.authentication -->
 <script src="assets/js/auth_users.js"></script>
 <script src="assets/js/reg_users.js"></script>
+<script src="assets/js/form.verify.js"></script>
 <?php include 'footer.php'?>
