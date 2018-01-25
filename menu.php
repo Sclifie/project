@@ -42,9 +42,12 @@
                     </ul>
                 </li>
                 <!-- TODO: ЧЕК СЕССИИ -->
-                <li><a href="private.php">Личный Кабинет</a></li>
+                <?php if ($_SESSION['auth'] == true) : ?>
+                <li><a href="private.php">Ваш Аккаунт <?php echo $_SESSION['login']; ?></a></li>
+                <? else: ?>
                 <li><a href="myauth.php">Регистрация</a></li>
                 <li><a href="myauth.php">Логин</a></li>
+                <?php endif; ?>
             </ul>
         </div><!-- /.col -->
     </div><!-- /.container -->

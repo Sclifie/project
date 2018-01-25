@@ -44,7 +44,7 @@ jQuery(document).ready(function () {
                 success: function (response) {
                     switch (response) {
                         case 'ok'    :
-                            console.log(response);
+                                window.location = '/private.php';
                             break;
                         case 'wrong' :
                             console.log(response);
@@ -53,7 +53,7 @@ jQuery(document).ready(function () {
                             console.log(response);
                             break;
                         case 'admins':
-                            console.log(response);
+                                window.location = '/private.php?role=admin';
                             break;
                     }
                 },

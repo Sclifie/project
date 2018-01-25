@@ -5,6 +5,8 @@
          time() + 3600
      );
  var_dump($_SESSION);
+ $_SESSION['auth'] = true;
+ $_SESSION['login'] = "GLEB KOLESNIKOV";
 ?>
 <?php include 'header.php' ?>
 <?php include 'menu.php' ?>
