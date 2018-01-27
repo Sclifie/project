@@ -1,31 +1,35 @@
 <?php
+session_start();
 include 'read_writeJSON.php';
-
 function getUsers(){
-    $users = getDataFromFile('../user_data/users_list.txt');
+    $users = file_get_contents('..\users_data\users_list.txt');
     return unserialize($users);
 }
 function auth_users(){
-    $post = $_POST;
-    $user_data = json_decode($post['auth_data'], true);
+    echo 'POST <br>';
+    var_dump($_POST);
+    $post = $_POST['reg_users_data'];
+    echo 'post <br>';
+    var_dump($post);
+    $user_data = json_decode($post, true);
+    echo 'user data decode <br>';
+    var_dump($user_data);
     $all_users_data = getUsers();
+    echo 'all users data decode <br>';
+    var_dump($all_users_data);
     foreach ($all_users_data as $val){
-        if($val['userAuthEmail'] == $all_users_data['userAuthEmail']){
-            if ($val['userAuthPassword'] == $all_users_data['userAuthPassword']){
-                echo $val['userGroupRole'];
-                return true;
+        if($val['userEmail'] == $all_users_data['userEmail']){
+            var_dump( $val['userEmail'] . '=' . $all_users_data['userEmail'] . "<br>");
+            if ($val['userPassword'] == $all_users_data['userEmail']){
+                $_SESSION['auth'] = true;
+                $_SESSION['login'] = $val['userAuthEmail'];
+                echo 'ok';
             }
-            echo 'wrong';
+            echo 'wrong_pw';
             return false;
         }
     }
-    echo 'wrong';
+    echo 'no_usr';
     return false;
 }
 auth_users();
-/**
- * Created by PhpStorm.
- * User: Sclif
- * Date: 21.01.2018
- * Time: 21:42
- */

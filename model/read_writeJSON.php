@@ -17,14 +17,22 @@ function addDataToFile($data, $file_name){
     );
 }
 function checkUsers($data,$file_name){
-    $array = json_decode($data, true);
-    $data = file_get_contents($file_name);
-    var_export(unserialize($data));
+    var_dump($data);
+    var_dump($file_name);
+    $what_in_file = function ($file_name){
+        if(file_get_contents($file_name) === null){
+        return false;} else {return true;}
+    };
+        if($what_in_file){
+             $file_array = unserialize(file_get_contents($file_name));
+             if(in_array($data,$file_array)){
+        return false;
+    }
+    }
+    return true;}
 
-}
-/**
- * Created by PhpStorm.
- * User: Sclif
- * Date: 20.01.2018
- * Time: 2:45
- */
+
+//    if(in_array($data,))
+//    var_export(unserialize($data));
+//    var_export($array);
+

@@ -5,8 +5,6 @@
          time() + 3600
      );
  var_dump($_SESSION);
- $_SESSION['auth'] = true;
- $_SESSION['login'] = "GLEB KOLESNIKOV";
 ?>
 <?php include 'header.php' ?>
 <?php include 'menu.php' ?>
@@ -27,21 +25,21 @@
                         </div>
                     </div>
 
-                    <form class="login-form cf-style-1 "  id="auth_form">
+                    <form class="login-form cf-style-1" id="auth_form">
                         <div class="field-row">
                             <label>E-mail</label>
-                            <input type="text" class="le-input req" id="auth_user_email">
-                        </div><!-- /.field-row -->
+                            <input type="text" class="le-input" id="auth_user_email" name="auth_email">
+                        </div>
 
                         <div class="field-row">
                             <label>Пароль</label>
-                            <input type="text"  class="le-input req" data-settings="hello" id="auth_user_pw">
-                        </div><!-- /.field-row -->
+                            <input type="password"  class="le-input" id="auth_user_pw" name="auth_pwd">
+                        </div>
+
+                        <!-- /.field-row -->
 <!--               С       Т      А        Т      У        С                  А         У       Т       А -->
-                        <div class="auth-status-block">
-                            <span id="auth_status" class="auth-status">
-                                Some Text
-                            </span>
+                        <div class="auth-status" id="auth_status">
+                            Авторизуйтесь пожалуйста
                         </div>
                         <div class="field-row clearfix">
                         	<span class="pull-left">
@@ -68,21 +66,22 @@
                     <form role="form" class="register-form cf-style-1" id="register_form">
                         <div class="field-row">
                             <label>E-mail</label>
-                            <input type="text" class="le-input">
+                            <input type="text" class="le-input" name="email_reg">
                         </div><!-- /.field-row -->
                         <div class="field-row">
                             <label>Логин</label>
-                            <input type="text" class="le-input">
+                            <input type="text" class="le-input" name="login_reg">
                         </div>
                         <div class="field-row">
                             <label>Пароль</label>
-                            <input type="password" class="le-input">
+                            <input type="password" class="le-input" name="login_pw" id="reg_user_pw">
+                        </div>
+                        <div class="field-row">
+                            <label>Подтверждение</label>
+                            <input type="password"  class="le-input" id="reg_user_pw_conf" name="reg_pw_conf">
                         </div>
  <!--               С       Т      А        Т      У        С                  Р        Е      Г        А -->
-                        <div class="reg-status-block">
-                            <span id="auth_status" class="auth-status">
-                                Some Text 2
-                            </span>
+                        <div class="reg-status-block" id="register_form_st">
                         </div><br>
                         <div class="buttons-holder">
                             <button type="submit" class="le-button huge">Регистрация</button>
@@ -107,7 +106,7 @@
 
     </div>
 </main><!-- /.authentication -->
+<script src="assets/js/dist/jquery.validate.min.js"></script>
 <script src="assets/js/auth_users.js"></script>
 <script src="assets/js/reg_users.js"></script>
-<script src="assets/js/form.verify.js"></script>
 <?php include 'footer.php'?>

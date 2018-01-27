@@ -1,78 +1,98 @@
 jQuery(document).ready(function () {
     'use strict';
-
-    jQuery('#auth_form').submit(function (e) {
-            e.preventDefault();
-            // let validator = new FormController('auth_form','../../model/auth_users.php');
-            // validator.getElemet();
-            // let form = document.getElementById('auth_form');
-            // let tags = form.getElementsByTagName('input');
-            // let answer =  validator.validateData();
-            // switch(answer) {
-            //     case 'tooMany' :
-            //         break;
-            //     case 'tooShort':
-            //         break;
-            //     case 'ok'      :
+jQuery('#auth_form').validate(
+    {
+        rules: {
+            auth_email : {
+                email     : true,
+                required  : true,
+                minlength : 7,
+                maxlength : 28
+            },
+            auth_pwd : {
+                required  : true,
+                maxlength : 14,
+                minlength : 6
+            },
+            // auth_pwd_conf : {
+            //     required  : true,
+            //     equalTo   : '#auth_user_pw'
             // }
-            // console.log(answer);
+        },
+        messages : {
+            auth_email: {
+                email: "Введите корректный Email",
+                required: "Поле обязательно для ввода",
+                mixlength: "Минимальная длинна 7 символов",
+                maxlength: "Максимальная длинна 28 символов"
+            },
+            auth_pwd: {
+                required : "Поле обязательно для ввода",
+                minlength : "Минимальная длинна 6 символов",
+                maxlength : "Максимальная длинна 14 символов",
+            },
+            // auth_pwd_conf : {
+            //     required : "Поле обязательно для ввода",
+            //     equalTo: "Пароли не совпадают"
+            // }
+        },
+        focusCleanup: true,
+        invalidHandler : function (event, validator) {
+            jQuery('#auth_status').text('Проверьте все поля на корректность');
+            jQuery('#auth_status').addClass('statuserr');
+        },
+        onkeyup: function (element) {
+            jQuery('#auth_status').text('Ввод данных');
+            jQuery('#auth_status').removeClass('statuserr');
+        },
+        submitHandler : sendToServer
+    },
+);
+
+function sendToServer() {
+
             let userAuthEmail = jQuery('#auth_user_email');
             let userAuthPassword = jQuery('#auth_user_pw');
             let authStatus = jQuery('#auth_status');
-
-            userAuthEmail.addClass('userAuthEmail');
-            userAuthPassword.addClass('userAuthPassword');
-        console.log(userAuthEmail);
+            console.log(userAuthEmail);
 
             console.log(authStatus);
 
             let userAuthData = {
-                userAuthEmail: userAuthEmail.val(),
-                userAuthPassword: userAuthPassword.val()
+                userEmail: userAuthEmail.val(),
+                userPassword: userAuthPassword.val()
             };
 
-            // let checkStatus = checkClientInput(userAuthData) === undefined ? false : true;
-            // console.log('Check Status',checkStatus);
             console.log('hello AJAX');
-
-            userAuthData = 'user_data=' + JSON.stringify(userAuthData);
-
+    let otladka = document.getElementById('otladka');
+            userAuthData = 'reg_users_data=' + JSON.stringify(userAuthData);
+            console.log('JSON reg_user_data \n',userAuthData);
             jQuery.ajax({
-                url: '../../model/auth_users' + '.php',  //auth_users
+                url: '../../model/auth_users.php',
                 type: 'post',
                 data: userAuthData,
                 success: function (response) {
+                    otladka.innerHTML = response;
                     switch (response) {
                         case 'ok'    :
-                                window.location = '/private.php';
+                            window.location = '/private.php';
+                            authStatus.text('Добро пожаловать');
                             break;
-                        case 'wrong' :
+                        case 'wrong_pw' :
+                            authStatus.text('Не верный пароль');
                             console.log(response);
                             break;
-                        case 'users' :
-                            console.log(response);
-                            break;
-                        case 'admins':
-                                window.location = '/private.php?role=admin';
+                        case 'no_usr':
+                            authStatus.text('Пользователь не найден');
+                            window.location = '/private.php?role=admin';
                             break;
                     }
                 },
                 error: function (error) {
                     console.log('All about ERRORS', error);
                 }
-            })
-        }
-    )
+            })}});
 
-});
 
-// function checkClientInput(userData) {
-//     for (let keys in userData){
-//         if(5 < userData[keys].length < 40){
-//             console.log(userData[keys].length);
-//
-//         } else {
-//             console.log(userData[keys].length);
-//             }
-//     }
-// }
+
+
