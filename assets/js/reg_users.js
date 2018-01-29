@@ -7,16 +7,16 @@ jQuery(document).ready(function () {
                     email     : true,
                     required  : true,
                     minlength : 7,
-                    maxlength : 28
+                    maxlength : 40
                 },
                 login_reg :{
                     required  : true,
-                    minlength : 4,
-                    maxlength : 15
+                    minlength : 5,
+                    maxlength : 20
                 },
                 login_pw : {
                     required  : true,
-                    maxlength : 14,
+                    maxlength : 20,
                     minlength : 5
                 },
                 reg_pw_conf : {
@@ -66,7 +66,7 @@ function submitToServer() {
         let userRegisterEmail       = regForm[0].value;
         let userRegisterLogin       = regForm[1].value;
         let userRegisterPassword    = regForm[2].value;
-
+        let userRegisterStatus      = jQuery('#register_form_st');
         let otladka = document.getElementById('otladka');
 
         let regUsersData = {
@@ -76,17 +76,33 @@ function submitToServer() {
             userPassword:   userRegisterPassword
         };
 
-        console.log('regUserData',regUsersData);
-
         regUsersData = 'reg_users_data=' + JSON.stringify(regUsersData);
-        console.log('JSON reg_user_data \n',regUsersData);
+
         jQuery.ajax({
 
-            url: '../../model/user_registration.php',
+            url: 'model/user_registration.php',
             type: 'post',
             data: regUsersData,
             success: function (response) {
-                otladka.innerHTML = response;
+                    switch (response){
+                        case 'ok'        :
+                            userRegisterStatus.addClass('auth-status');
+                            userRegisterStatus.text('Регистрация успешно завершена. Авторизуйтесь');
+                            break;
+                        case 'bad_email' :
+                            window.localStorage
+                            userRegisterStatus.addClass('statuserr');
+                            userRegisterStatus.text('Email уже зарегистрирован');
+                            break;
+                        case 'same_login':
+                            userRegisterStatus.addClass('statuserr');
+                            userRegisterStatus.text('Логин уже используется');
+                            break;
+                        case 'same_phone':
+                            userRegisterStatus.addClass('statuserr');
+                            userRegisterStatus.text('Телефон уже зарегистрирован');
+                            break;
+                    }
             },
             error:function (error) {
 

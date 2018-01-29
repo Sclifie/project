@@ -42,9 +42,9 @@
                     </ul>
                 </li>
                 <!-- TODO: ЧЕК СЕССИИ -->
-                <?php if ($_SESSION['auth'] == true) : ?>
+                <?php if (isset($_SESSION['auth']) == true) : ?>
                 <li><a href="private.php">Ваш Аккаунт <?php echo $_SESSION['login']; ?></a></li>
-                <? else: ?>
+                <? else : ?>
                 <li><a href="myauth.php">Регистрация</a></li>
                 <li><a href="myauth.php">Логин</a></li>
                 <?php endif; ?>

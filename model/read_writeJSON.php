@@ -16,23 +16,32 @@ function addDataToFile($data, $file_name){
         FILE_APPEND
     );
 }
+
 function checkUsers($data,$file_name){
-    var_dump($data);
-    var_dump($file_name);
     $what_in_file = function ($file_name){
-        if(file_get_contents($file_name) === null){
-        return false;} else {return true;}
+        if(file_get_contents($file_name) !== null) {
+            return true;
+        } else {
+            return false;
+        }
     };
-        if($what_in_file){
-             $file_array = unserialize(file_get_contents($file_name));
-             if(in_array($data,$file_array)){
-        return false;
-    }
+
+    if($what_in_file){
+        $file_array = unserialize(file_get_contents($file_name));
+            foreach ($file_array as $value){
+                $find = array_search($data,$value);
+                if ($find === 'userEmail'){
+                    return false;
+                }
+                if ($find === 'userLogin'){
+                    return false;
+                }
+                if ($find === 'userPhone'){
+                    return false;
+                }
+            }
+        unset($value);
+        return true;
     }
     return true;}
-
-
-//    if(in_array($data,))
-//    var_export(unserialize($data));
-//    var_export($array);
 

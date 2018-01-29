@@ -1,5 +1,8 @@
 jQuery(document).ready(function () {
     'use strict';
+    let self = this;
+    let tryCount = 0;
+    localStorage.setItem('trying', tryCount);
 jQuery('#auth_form').validate(
     {
         rules: {
@@ -7,11 +10,11 @@ jQuery('#auth_form').validate(
                 email     : true,
                 required  : true,
                 minlength : 7,
-                maxlength : 28
+                maxlength : 40
             },
             auth_pwd : {
                 required  : true,
-                maxlength : 14,
+                maxlength : 20,
                 minlength : 6
             },
             // auth_pwd_conf : {
@@ -31,13 +34,11 @@ jQuery('#auth_form').validate(
                 minlength : "Минимальная длинна 6 символов",
                 maxlength : "Максимальная длинна 14 символов",
             },
-            // auth_pwd_conf : {
-            //     required : "Поле обязательно для ввода",
-            //     equalTo: "Пароли не совпадают"
-            // }
         },
-        focusCleanup: true,
+
         invalidHandler : function (event, validator) {
+            localStorage.setItem('trying', tryCount++);
+            console.log(localStorage.getItem('tryCount'));
             jQuery('#auth_status').text('Проверьте все поля на корректность');
             jQuery('#auth_status').addClass('statuserr');
         },
@@ -45,7 +46,11 @@ jQuery('#auth_form').validate(
             jQuery('#auth_status').text('Ввод данных');
             jQuery('#auth_status').removeClass('statuserr');
         },
-        submitHandler : sendToServer
+        submitHandler : function(){
+            console.log(localStorage.getItem('tryCount'));
+            let i = localStorage.getItem('tryCount');
+            if(i > 15){jQuery('#auth_status').text('Число попыток исчерпано')} else {sendToServer()} //чёт тут не получается(хотя и так работает=()
+        }
     },
 );
 
@@ -53,10 +58,7 @@ function sendToServer() {
 
             let userAuthEmail = jQuery('#auth_user_email');
             let userAuthPassword = jQuery('#auth_user_pw');
-            let authStatus = jQuery('#auth_status');
-            console.log(userAuthEmail);
-
-            console.log(authStatus);
+            let authStatus = jQuery('#auth_status')
 
             let userAuthData = {
                 userEmail: userAuthEmail.val(),
@@ -68,14 +70,14 @@ function sendToServer() {
             userAuthData = 'reg_users_data=' + JSON.stringify(userAuthData);
             console.log('JSON reg_user_data \n',userAuthData);
             jQuery.ajax({
-                url: '../../model/auth_users.php',
+                url: 'model/auth_users.php',
                 type: 'post',
                 data: userAuthData,
                 success: function (response) {
                     otladka.innerHTML = response;
                     switch (response) {
                         case 'ok'    :
-                            window.location = '/private.php';
+                            window.location = 'private.php';
                             authStatus.text('Добро пожаловать');
                             break;
                         case 'wrong_pw' :
@@ -84,7 +86,6 @@ function sendToServer() {
                             break;
                         case 'no_usr':
                             authStatus.text('Пользователь не найден');
-                            window.location = '/private.php?role=admin';
                             break;
                     }
                 },

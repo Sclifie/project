@@ -1,32 +1,41 @@
 <?php
 require_once 'read_writeJSON.php';
+require_once 'filter_array.php';
 function user_reg(){
     $post = $_POST['reg_users_data'];
-    $post = (json_decode($post,true, 512,0));
-    foreach ($post as &$value ){
-        $value = trim($value," \t\n\r\0\x0B");
-        $value = strip_tags($value);
-        $value = htmlspecialchars($value);
-//        if(strripos($value, '<?',0) !==false){
-//            return false;
-//        }
-}
-    var_export($post);
-    $json_array = $post;
-    var_dump($post);
-    var_dump($json_array['userEmail']);
-    var_dump($json_array['userLogin']);
+    $post = filterArr($post); //filter_array.php
+    unset($value);
+    $current_users = unserialize(file_get_contents('..\users_data\users_list.txt'));
 
-    $email_check = checkUsers($json_array['userEmail'],'../users_data/users_list.txt');
-    $login_check = checkUsers($json_array['userLogin'],'../users_data/users_list.txt');
+    $id_str = 'id_';
+    $id_num = count($current_users)+1;
+    $id = $id_str . $id_num;
+
+
+    $json_array = $post;
+    $email_check = checkUsers($json_array['userEmail'],'..\users_data\users_list.txt'); //readWriteJSON.php 20
+
+    $login_check = checkUsers($json_array['userLogin'],'..\users_data\users_list.txt'); //readWriteJSON.php 20
+
+    if(isset($json_array['userPhone'])){$phone_check = checkUsers($json_array['userPhone'],'..\users_data\users_list.txt');}
     if($login_check === true){
         if($email_check === true){
-            file_put_contents('../users_data/users_list.txt',
-                $json_array,
-                FILE_APPEND);
-            echo 'Регистрация прошла успешно';
-        } else {echo 'Пользователь с таким e-mail уже зарегистрирован';}
+                 ${$id} = [
+                   'userEmail' => $json_array['userEmail'],
+                    'userLogin' => $json_array['userLogin'],
+                     'userPassword' => $json_array['userPassword'],
+                      'userGroup' => $json_array['userGroup'] = 'user',
+                      'userImg' => $json_array['img'] =  'img/' . $id . '.png',
+                       'userFrstName' => $json_array['name'] = 'name',
+                        'userSurName' => $json_array['sur_name'] = 'name2',
+                         'userPhone' => $json_array['phone'] = '+7 911 849 0012'
+                ];
+                $current_users[$id] = ${$id};
+                file_put_contents('../users_data/users_list.txt',serialize($current_users));
+            echo 'ok';
+            return true;
+        } else {echo 'bad_email'; return false;}
     }
-    else {echo 'Пользователь с таким логином уже существует';}
+    echo 'same_login'; return false;
 }
 user_reg();
